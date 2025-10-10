@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Maize\GoogleRecaptchaV3\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class GoogleRecaptchaV3Command extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-google-recaptcha-v3';
 
     public $description = 'My command';
 
