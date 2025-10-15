@@ -34,8 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Maize\\GoogleRecaptchaV3\\": "src/",
-            "Maize\\GoogleRecaptchaV3\\Database\\Factories\\": "database/factories/"
+            "Maize\\GoogleRecaptchaV3\\": "src/"
         }
     },
     "autoload-dev": {
