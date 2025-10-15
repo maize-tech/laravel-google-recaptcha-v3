@@ -32,13 +32,20 @@ class Config
     {
         $key = config('google-recaptcha-v3.site_key');
 
-        return empty($key) ? null : $key;
+        return blank($key) ? null : $key;
     }
 
     public static function getSecretKey(): ?string
     {
         $key = config('google-recaptcha-v3.secret_key');
 
-        return empty($key) ? null : $key;
+        return blank($key) ? null : $key;
+    }
+
+    public static function getScoreThreshold(): float
+    {
+        $threshold = config('google-recaptcha-v3.score_threshold');
+
+        return blank($threshold) ? 0.5 : floatval($threshold);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Support\ReCaptcha\Rules;
+namespace Maize\GoogleRecaptchaV3\Rules;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Http;
@@ -9,8 +9,10 @@ use Maize\GoogleRecaptchaV3\Support\Config;
 class Recaptcha implements ValidationRule
 {
     public function __construct(
-        private float $scoreThreshold
-    ) {}
+        private ?float $scoreThreshold = null
+    ) {
+        $this->scoreThreshold ??= Config::getScoreThreshold();
+    }
 
     /**
      * Esegue la logica di validazione.
@@ -19,6 +21,10 @@ class Recaptcha implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
+        if (! Config::isEnabled()) {
+            return;
+        }
+
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => Config::getSecretKey(),
             'response' => $value,
