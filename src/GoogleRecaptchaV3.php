@@ -13,8 +13,8 @@ class GoogleRecaptchaV3
 {
     public function boot(): void
     {
-        Blade::directive('recaptcha', fn (Badge $badge) => (
-            $this->toHtml($badge)
+        Blade::directive('recaptcha', fn (string $expression) => (
+            "<?php echo app(".static::class.")->renderHtml({$expression}); ?>"
         ));
 
         Rule::macro('googleRecaptchaV3', fn (?float $scoreThreshold = null) => (
@@ -69,7 +69,7 @@ class GoogleRecaptchaV3
         CSS;
     }
 
-    private function toHtml(Badge $badge): string
+    public function renderHtml(Badge $badge): string
     {
         if (! Config::isEnabled()) {
             return '';

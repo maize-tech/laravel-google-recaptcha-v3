@@ -12,7 +12,7 @@ beforeEach(function () {
 it('renders recaptcha HTML with badge parameter', function (Badge $badge, bool $shouldContainBadgeParam) {
     $recaptcha = new GoogleRecaptchaV3;
 
-    $html = (fn () => $this->toHtml($badge))->call($recaptcha);
+    $html = $recaptcha->renderHtml($badge);
 
     expect($html)
         ->toContain('https://www.google.com/recaptcha/api.js')
@@ -35,7 +35,7 @@ it('renders recaptcha HTML with badge parameter', function (Badge $badge, bool $
 it('renders hidden badge style for hidden badge', function () {
     $recaptcha = new GoogleRecaptchaV3;
 
-    $html = (fn () => $this->toHtml(Badge::HIDDEN))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::HIDDEN);
 
     expect($html)
         ->toContain('.grecaptcha-badge')
@@ -47,7 +47,7 @@ it('renders hidden badge style for hidden badge', function () {
 it('does not render hidden badge style for non-hidden badges', function (Badge $badge) {
     $recaptcha = new GoogleRecaptchaV3;
 
-    $html = (fn () => $this->toHtml($badge))->call($recaptcha);
+    $html = $recaptcha->renderHtml($badge);
 
     expect($html)
         ->not->toContain('.grecaptcha-badge')
@@ -62,7 +62,7 @@ it('returns empty string when recaptcha is disabled', function () {
     config()->set('google-recaptcha-v3.enabled', false);
 
     $recaptcha = new GoogleRecaptchaV3;
-    $html = (fn () => $this->toHtml(Badge::BOTTOMRIGHT))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::BOTTOMRIGHT);
 
     expect($html)->toBe('');
 });
@@ -71,7 +71,7 @@ it('returns empty string when site key is missing', function () {
     config()->set('google-recaptcha-v3.site_key', null);
 
     $recaptcha = new GoogleRecaptchaV3;
-    $html = (fn () => $this->toHtml(Badge::BOTTOMRIGHT))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::BOTTOMRIGHT);
 
     expect($html)->toBe('');
 });
@@ -80,7 +80,7 @@ it('returns empty string when secret key is missing', function () {
     config()->set('google-recaptcha-v3.secret_key', null);
 
     $recaptcha = new GoogleRecaptchaV3;
-    $html = (fn () => $this->toHtml(Badge::BOTTOMRIGHT))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::BOTTOMRIGHT);
 
     expect($html)->toBe('');
 });
@@ -88,7 +88,7 @@ it('returns empty string when secret key is missing', function () {
 it('includes window.recaptcha function in output', function () {
     $recaptcha = new GoogleRecaptchaV3;
 
-    $html = (fn () => $this->toHtml(Badge::BOTTOMRIGHT))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::BOTTOMRIGHT);
 
     expect($html)
         ->toContain('window.recaptcha = function')
@@ -100,7 +100,7 @@ it('includes window.recaptcha function in output', function () {
 it('includes site key in grecaptcha execute call', function () {
     $recaptcha = new GoogleRecaptchaV3;
 
-    $html = (fn () => $this->toHtml(Badge::BOTTOMRIGHT))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::BOTTOMRIGHT);
 
     expect($html)->toContain("grecaptcha.execute('test-site-key'");
 });
@@ -108,7 +108,7 @@ it('includes site key in grecaptcha execute call', function () {
 it('wraps scripts in script tags', function () {
     $recaptcha = new GoogleRecaptchaV3;
 
-    $html = (fn () => $this->toHtml(Badge::BOTTOMRIGHT))->call($recaptcha);
+    $html = $recaptcha->renderHtml(Badge::BOTTOMRIGHT);
 
     expect($html)
         ->toMatch('/<script>.*?<\/script>/s')
