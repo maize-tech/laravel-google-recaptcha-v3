@@ -11,61 +11,46 @@ it('returns base js script url with render parameter', function () {
         ->toBe('https://www.google.com/recaptcha/api.js?render=test-site-key');
 });
 
-it('returns true when recaptcha is enabled with valid keys', function () {
-    config()->set('google-recaptcha-v3.enabled', true);
+it('handles enabled config values correctly', function (mixed $value, bool $expected) {
+    config()->set('google-recaptcha-v3.enabled', $value);
     config()->set('google-recaptcha-v3.site_key', 'test-site-key');
     config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
 
-    expect(Config::isEnabled())->toBeTrue();
-});
+    expect(Config::isEnabled())->toBe($expected);
+})->with([
+    'boolean true' => [true, true],
+    'boolean false' => [false, false],
+    'string true' => ['true', true],
+    'string false' => ['false', false],
+    'string 1' => ['1', true],
+    'string 0' => ['0', false],
+    'integer 1' => [1, true],
+    'integer 0' => [0, false],
+    'null' => [null, false],
+    'empty string' => ['', false],
+]);
 
-it('returns false when recaptcha is explicitly disabled', function () {
-    config()->set('google-recaptcha-v3.enabled', false);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
+it('returns false when site key is missing', function (?string $siteKey) {
+    config()->set('google-recaptcha-v3.enabled', true);
+    config()->set('google-recaptcha-v3.site_key', $siteKey);
     config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
 
     expect(Config::isEnabled())->toBeFalse();
-});
+})->with([
+    'null' => [null],
+    'empty string' => [''],
+]);
 
-it('returns false when enabled is null', function () {
-    config()->set('google-recaptcha-v3.enabled', null);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
-
-it('returns false when site key is missing', function () {
-    config()->set('google-recaptcha-v3.enabled', true);
-    config()->set('google-recaptcha-v3.site_key', null);
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
-
-it('returns false when site key is empty string', function () {
-    config()->set('google-recaptcha-v3.enabled', true);
-    config()->set('google-recaptcha-v3.site_key', '');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
-
-it('returns false when secret key is missing', function () {
+it('returns false when secret key is missing', function (?string $secretKey) {
     config()->set('google-recaptcha-v3.enabled', true);
     config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', null);
+    config()->set('google-recaptcha-v3.secret_key', $secretKey);
 
     expect(Config::isEnabled())->toBeFalse();
-});
-
-it('returns false when secret key is empty string', function () {
-    config()->set('google-recaptcha-v3.enabled', true);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', '');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
+})->with([
+    'null' => [null],
+    'empty string' => [''],
+]);
 
 it('returns site key when configured', function () {
     config()->set('google-recaptcha-v3.site_key', 'test-site-key');
@@ -73,17 +58,14 @@ it('returns site key when configured', function () {
     expect(Config::getSiteKey())->toBe('test-site-key');
 });
 
-it('returns null when site key is not configured', function () {
-    config()->set('google-recaptcha-v3.site_key', null);
+it('returns null when site key is blank', function (?string $value) {
+    config()->set('google-recaptcha-v3.site_key', $value);
 
     expect(Config::getSiteKey())->toBeNull();
-});
-
-it('returns null when site key is empty string', function () {
-    config()->set('google-recaptcha-v3.site_key', '');
-
-    expect(Config::getSiteKey())->toBeNull();
-});
+})->with([
+    'null' => [null],
+    'empty string' => [''],
+]);
 
 it('returns secret key when configured', function () {
     config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
@@ -91,114 +73,24 @@ it('returns secret key when configured', function () {
     expect(Config::getSecretKey())->toBe('test-secret-key');
 });
 
-it('returns null when secret key is not configured', function () {
-    config()->set('google-recaptcha-v3.secret_key', null);
+it('returns null when secret key is blank', function (?string $value) {
+    config()->set('google-recaptcha-v3.secret_key', $value);
 
     expect(Config::getSecretKey())->toBeNull();
-});
+})->with([
+    'null' => [null],
+    'empty string' => [''],
+]);
 
-it('returns null when secret key is empty string', function () {
-    config()->set('google-recaptcha-v3.secret_key', '');
+it('returns score threshold correctly', function (mixed $value, float $expected) {
+    config()->set('google-recaptcha-v3.score_threshold', $value);
 
-    expect(Config::getSecretKey())->toBeNull();
-});
-
-it('returns score threshold from config', function () {
-    config()->set('google-recaptcha-v3.score_threshold', 0.7);
-
-    expect(Config::getScoreThreshold())->toBe(0.7);
-});
-
-it('returns default score threshold when not configured', function () {
-    config()->set('google-recaptcha-v3.score_threshold', null);
-
-    expect(Config::getScoreThreshold())->toBe(0.5);
-});
-
-it('returns default score threshold when empty string', function () {
-    config()->set('google-recaptcha-v3.score_threshold', '');
-
-    expect(Config::getScoreThreshold())->toBe(0.5);
-});
-
-it('converts string score threshold to float', function () {
-    config()->set('google-recaptcha-v3.score_threshold', '0.8');
-
-    expect(Config::getScoreThreshold())->toBe(0.8);
-});
-
-it('returns score threshold of 1.0', function () {
-    config()->set('google-recaptcha-v3.score_threshold', 1.0);
-
-    expect(Config::getScoreThreshold())->toBe(1.0);
-});
-
-it('returns score threshold of 0.0', function () {
-    config()->set('google-recaptcha-v3.score_threshold', 0.0);
-
-    expect(Config::getScoreThreshold())->toBe(0.0);
-});
-
-it('handles enabled config as string value', function () {
-    config()->set('google-recaptcha-v3.enabled', '1');
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeTrue();
-});
-
-it('handles enabled config as empty string', function () {
-    config()->set('google-recaptcha-v3.enabled', '');
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
-
-it('handles enabled config as integer 1', function () {
-    config()->set('google-recaptcha-v3.enabled', 1);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeTrue();
-});
-
-it('handles enabled config as integer 0', function () {
-    config()->set('google-recaptcha-v3.enabled', 0);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
-
-it('handles enabled config as boolean true', function () {
-    config()->set('google-recaptcha-v3.enabled', true);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeTrue();
-});
-
-it('handles enabled config as boolean false', function () {
-    config()->set('google-recaptcha-v3.enabled', false);
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
-
-it('handles enabled config as string true', function () {
-    config()->set('google-recaptcha-v3.enabled', 'true');
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeTrue();
-});
-
-it('handles enabled config as string false', function () {
-    config()->set('google-recaptcha-v3.enabled', 'false');
-    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
-    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
-
-    expect(Config::isEnabled())->toBeFalse();
-});
+    expect(Config::getScoreThreshold())->toBe($expected);
+})->with([
+    'float 0.7' => [0.7, 0.7],
+    'float 1.0' => [1.0, 1.0],
+    'float 0.0' => [0.0, 0.0],
+    'string 0.8' => ['0.8', 0.8],
+    'null defaults to 0.5' => [null, 0.5],
+    'empty string defaults to 0.5' => ['', 0.5],
+]);
