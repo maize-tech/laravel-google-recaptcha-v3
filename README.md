@@ -170,11 +170,6 @@ use Illuminate\Validation\Rule;
 
 class ContactFormRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
@@ -182,13 +177,6 @@ class ContactFormRequest extends FormRequest
             'email' => ['required', 'email', 'max:255'],
             'message' => ['required', 'string', 'max:1000'],
             'g-recaptcha-response' => ['required', 'string', Rule::googleRecaptchaV3()],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'g-recaptcha-response.required' => 'Please complete the reCAPTCHA verification.',
         ];
     }
 }
