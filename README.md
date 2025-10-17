@@ -130,6 +130,15 @@ Add the reCAPTCHA script to your Blade templates using the `@recaptcha` directiv
 - `Badge::BOTTOMRIGHT` - Displays the badge at the bottom right (recommended)
 - `Badge::HIDDEN` - Hides the badge completely
 
+**Important Note about Hidden Badge:**
+When using `Badge::HIDDEN`, you must display the reCAPTCHA branding visibly in your user flow. According to [Google's guidelines](https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed), you need to include the following text:
+
+```html
+This site is protected by reCAPTCHA and the Google
+<a href="https://policies.google.com/privacy">Privacy Policy</a> and
+<a href="https://policies.google.com/terms">Terms of Service</a> apply.
+```
+
 ### Backend Validation
 
 Use the `googleRecaptchaV3` validation rule in your form requests or controllers:
