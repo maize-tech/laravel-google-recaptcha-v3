@@ -76,7 +76,7 @@ class GoogleRecaptchaV3
         }
 
         $parts = [
-            str($this->getJsScriptUrl($badge))->wrap('<script>', '</script>'),
+            '<script src="'.$this->getJsScriptUrl($badge).'"></script>',
             str($this->getJsTokenScript())->wrap('<script>', '</script>'),
         ];
 
