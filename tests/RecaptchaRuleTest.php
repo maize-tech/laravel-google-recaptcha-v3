@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
-use Maize\GoogleRecaptchaV3\Rules\Recaptcha;
 
 it('can validate token', function (bool $enabled, ?bool $success, ?float $score, ?float $threshold, bool $fails) {
 
