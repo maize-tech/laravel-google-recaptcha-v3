@@ -3,6 +3,7 @@
 namespace Maize\GoogleRecaptchaV3;
 
 use Maize\GoogleRecaptchaV3\Facades\GoogleRecaptchaV3;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
