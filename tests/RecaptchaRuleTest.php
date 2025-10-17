@@ -5,8 +5,8 @@ use Illuminate\Validation\Rule;
 
 it('can validate token', function (bool $enabled, ?bool $success, ?float $score, ?float $threshold, bool $fails) {
     config()->set('google-recaptcha-v3.enabled', $enabled);
-    config()->set('google-recaptcha-v3.site_key', 'sitekey');
-    config()->set('google-recaptcha-v3.secret_key', 'secretkey');
+    config()->set('google-recaptcha-v3.site_key', 'test-site-key');
+    config()->set('google-recaptcha-v3.secret_key', 'test-secret-key');
 
     $body = [];
 
