@@ -71,6 +71,18 @@ return [
     |
     */
     'score_threshold' => env('GOOGLE_RECAPTCHA_V3_SCORE_THRESHOLD', 0.5),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Badge
+    |--------------------------------------------------------------------------
+    |
+    | The default badge position for the reCAPTCHA badge.
+    | Available options: 'bottomright', 'bottomleft', 'inline', 'hidden'.
+    | Default is 'bottomright'.
+    |
+    */
+    'badge' => env('GOOGLE_RECAPTCHA_V3_BADGE', 'bottomright'),
 ];
 ```
 
@@ -83,6 +95,7 @@ GOOGLE_RECAPTCHA_V3_ENABLED=true
 GOOGLE_RECAPTCHA_V3_SITE_KEY=your-site-key-here
 GOOGLE_RECAPTCHA_V3_SECRET_KEY=your-secret-key-here
 GOOGLE_RECAPTCHA_V3_SCORE_THRESHOLD=0.5
+GOOGLE_RECAPTCHA_V3_BADGE=bottomright
 ```
 
 You can obtain your site key and secret key from the [Google reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin).
@@ -91,7 +104,13 @@ You can obtain your site key and secret key from the [Google reCAPTCHA Admin Con
 
 ### Frontend Integration
 
-Add the reCAPTCHA script to your Blade templates using the `@recaptcha` directive. You can customize the badge position by passing one of the available badge positions:
+Add the reCAPTCHA script to your Blade templates using the `@recaptcha` directive:
+
+```blade
+@recaptcha
+```
+
+You can also customize the badge position by passing one of the available badge positions:
 
 ```blade
 <!DOCTYPE html>

@@ -45,4 +45,16 @@ return [
     |
     */
     'score_threshold' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Badge
+    |--------------------------------------------------------------------------
+    |
+    | The default badge position for the reCAPTCHA badge.
+    | Available options: 'bottomright', 'bottomleft', 'inline', 'hidden'.
+    | Default is 'bottomright'.
+    |
+    */
+    'badge' => null,
 ];

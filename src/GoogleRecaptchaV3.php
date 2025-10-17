@@ -13,7 +13,7 @@ class GoogleRecaptchaV3
 {
     public function boot(): void
     {
-        Blade::directive('recaptcha', fn (string $expression) => (
+        Blade::directive('recaptcha', fn (string $expression = '') => (
             "<?php echo app(\Maize\GoogleRecaptchaV3\GoogleRecaptchaV3::class)->renderHtml({$expression}); ?>"
         ));
 
@@ -69,8 +69,10 @@ class GoogleRecaptchaV3
         CSS;
     }
 
-    public function renderHtml(Badge $badge): string
+    public function renderHtml(?Badge $badge = null): string
     {
+        $badge ??= Config::getBadge();
+
         if (! Config::isEnabled()) {
             return '';
         }

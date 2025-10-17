@@ -3,6 +3,7 @@
 namespace Maize\GoogleRecaptchaV3\Support;
 
 use Illuminate\Support\Uri;
+use Maize\GoogleRecaptchaV3\Enums\Badge;
 
 class Config
 {
@@ -52,5 +53,20 @@ class Config
         $threshold = config('google-recaptcha-v3.score_threshold');
 
         return blank($threshold) ? 0.5 : floatval($threshold);
+    }
+
+    public static function getBadge(): Badge
+    {
+        $badge = config('google-recaptcha-v3.badge');
+
+        if ($badge instanceof Badge) {
+            return $badge;
+        }
+
+        if (is_string($badge)) {
+            return Badge::tryFrom($badge) ?? Badge::BOTTOMRIGHT;
+        }
+
+        return Badge::BOTTOMRIGHT;
     }
 }

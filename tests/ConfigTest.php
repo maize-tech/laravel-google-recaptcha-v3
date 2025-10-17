@@ -1,5 +1,6 @@
 <?php
 
+use Maize\GoogleRecaptchaV3\Enums\Badge;
 use Maize\GoogleRecaptchaV3\Support\Config;
 
 it('returns base js script url with render parameter', function () {
@@ -93,4 +94,21 @@ it('returns score threshold correctly', function (mixed $value, float $expected)
     'string 0.8' => ['0.8', 0.8],
     'null defaults to 0.5' => [null, 0.5],
     'empty string defaults to 0.5' => ['', 0.5],
+]);
+
+it('returns badge correctly', function (mixed $value, Badge $expected) {
+    config()->set('google-recaptcha-v3.badge', $value);
+
+    expect(Config::getBadge())->toBe($expected);
+})->with([
+    'Badge enum BOTTOMRIGHT' => [Badge::BOTTOMRIGHT, Badge::BOTTOMRIGHT],
+    'Badge enum BOTTOMLEFT' => [Badge::BOTTOMLEFT, Badge::BOTTOMLEFT],
+    'Badge enum INLINE' => [Badge::INLINE, Badge::INLINE],
+    'Badge enum HIDDEN' => [Badge::HIDDEN, Badge::HIDDEN],
+    'string bottomright' => ['bottomright', Badge::BOTTOMRIGHT],
+    'string bottomleft' => ['bottomleft', Badge::BOTTOMLEFT],
+    'string inline' => ['inline', Badge::INLINE],
+    'string hidden' => ['hidden', Badge::HIDDEN],
+    'null defaults to BOTTOMRIGHT' => [null, Badge::BOTTOMRIGHT],
+    'invalid string defaults to BOTTOMRIGHT' => ['invalid', Badge::BOTTOMRIGHT],
 ]);
