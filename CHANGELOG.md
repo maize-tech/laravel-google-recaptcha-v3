@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-google-recaptcha-v3` will be documented in this file.
 
+## 1.0.3 - 2025-10-17
+
+**Full Changelog**: https://github.com/maize-tech/laravel-google-recaptcha-v3/compare/1.0.2...1.0.3
+
 ## 1.0.2 - 2025-10-17
 
 **Full Changelog**: https://github.com/maize-tech/laravel-google-recaptcha-v3/compare/1.0.1...1.0.2
