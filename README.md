@@ -18,7 +18,7 @@ composer require maize-tech/laravel-google-recaptcha-v3
 You can install and configure the package with:
 
 ```bash
-php artisan laravel-google-recaptcha-v3:install
+php artisan google-recaptcha-v3:install
 ```
 
 This command will publish the configuration file.
