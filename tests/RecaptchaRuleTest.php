@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rule;
 use Maize\GoogleRecaptchaV3\Rules\Recaptcha;
 
 it('can validate token', function (bool $enabled, ?bool $success, ?float $score, ?float $threshold, bool $fails) {
@@ -27,7 +28,7 @@ it('can validate token', function (bool $enabled, ?bool $success, ?float $score,
 
     $validator = validator(
         ['token' => 'value'],
-        ['token' => new Recaptcha($threshold)]
+        ['token' => Rule::googleRecaptchaV3($threshold)]
     );
 
     expect($validator->fails())->toBe($fails);

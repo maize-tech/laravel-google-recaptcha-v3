@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Http;
 use Maize\GoogleRecaptchaV3\Support\Config;
 
-class Recaptcha implements ValidationRule
+class RecaptchaRule implements ValidationRule
 {
     public function __construct(
         private ?float $scoreThreshold = null

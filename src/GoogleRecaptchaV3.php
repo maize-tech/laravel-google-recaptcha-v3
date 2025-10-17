@@ -5,6 +5,7 @@ namespace Maize\GoogleRecaptchaV3;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Validation\Rule;
 use Maize\GoogleRecaptchaV3\Enums\Badge;
+use Maize\GoogleRecaptchaV3\Rules\RecaptchaRule;
 use Maize\GoogleRecaptchaV3\Support\Config;
 
 class GoogleRecaptchaV3
@@ -15,17 +16,19 @@ class GoogleRecaptchaV3
             $this->toHtml($badge)
         ));
 
-        Rule::macro('googleRecaptchaV3', fn () => null);
+        Rule::macro('googleRecaptchaV3', fn (?float $scoreThreshold = null) => (
+            new RecaptchaRule($scoreThreshold)
+        ));
     }
 
-    protected function getJsScriptUrl(Badge $badge): string
+    private function getJsScriptUrl(Badge $badge): string
     {
         return Config::getBaseJsScriptUrl()
             ->withQuery(['badge' => $badge])
             ->value();
     }
 
-    protected function getJsTokenScript(): string
+    private function getJsTokenScript(): string
     {
         $key = Config::getSiteKey();
 
@@ -54,7 +57,7 @@ class GoogleRecaptchaV3
         JS;
     }
 
-    protected function toHtml(Badge $badge): string
+    private function toHtml(Badge $badge): string
     {
         if (! Config::isEnabled()) {
             return '';
@@ -65,11 +68,6 @@ class GoogleRecaptchaV3
             str($this->getJsTokenScript())->wrap('<script>', '</script>'),
             // TODO: add style
         ]);
-    }
-
-    public function FunctionName($value = '')
-    {
-        // Rule::macro('recaptcha', );
     }
 
     // <style>
