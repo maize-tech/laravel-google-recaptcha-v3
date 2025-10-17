@@ -14,7 +14,7 @@ class GoogleRecaptchaV3
     public function boot(): void
     {
         Blade::directive('recaptcha', fn (string $expression) => (
-            '<?php echo app('.self::class.")->renderHtml({$expression}); ?>"
+            "<?php echo app(\Maize\GoogleRecaptchaV3\GoogleRecaptchaV3::class)->renderHtml({$expression}); ?>"
         ));
 
         Rule::macro('googleRecaptchaV3', fn (?float $scoreThreshold = null) => (
