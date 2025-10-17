@@ -12,7 +12,12 @@ class GoogleRecaptchaV3ServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('laravel-google-recaptcha-v3')
-            ->hasConfigFile();
+            ->hasConfigFile()
+            ->hasInstallCommand(fn (InstallCommand $command) => (
+                $command
+                    ->publishConfigFile()
+                    ->askToStarRepoOnGitHub('maize-tech/laravel-google-recaptcha-v3')
+            ));
     }
 
     public function packageBooted(): void

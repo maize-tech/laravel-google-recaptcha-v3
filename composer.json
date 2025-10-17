@@ -1,10 +1,14 @@
 {
     "name": "maize-tech/laravel-google-recaptcha-v3",
-    "description": "This is my package laravel-google-recaptcha-v3",
+    "description": "Laravel package for Google reCAPTCHA v3 integration with form validation and spam protection",
     "keywords": [
-        "Maize",
         "laravel",
-        "laravel-google-recaptcha-v3"
+        "google-recaptcha",
+        "recaptcha-v3",
+        "spam-protection",
+        "form-validation",
+        "security",
+        "maize"
     ],
     "homepage": "https://github.com/maize-tech/laravel-google-recaptcha-v3",
     "license": "MIT",
