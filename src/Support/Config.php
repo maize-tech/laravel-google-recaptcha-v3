@@ -16,7 +16,13 @@ class Config
     public static function isEnabled(): bool
     {
         $enabled = config('google-recaptcha-v3.enabled') ?? null;
-        $enabled = boolval($enabled);
+
+        // Handle string 'false' explicitly
+        if ($enabled === 'false' || $enabled === '0') {
+            $enabled = false;
+        } else {
+            $enabled = boolval($enabled);
+        }
 
         if (! $enabled) {
             return false;

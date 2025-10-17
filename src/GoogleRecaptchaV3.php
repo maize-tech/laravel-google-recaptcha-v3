@@ -26,7 +26,7 @@ class GoogleRecaptchaV3
     {
         return Config::getBaseJsScriptUrl()
             ->when($badge !== Badge::HIDDEN, fn (Uri $url) => (
-                $url->withQuery(['badge' => $badge])
+                $url->withQuery(['badge' => $badge->value])
             ))
             ->value();
     }
