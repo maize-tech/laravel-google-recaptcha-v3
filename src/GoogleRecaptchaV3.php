@@ -3,11 +3,11 @@
 namespace Maize\GoogleRecaptchaV3;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Uri;
 use Illuminate\Validation\Rule;
 use Maize\GoogleRecaptchaV3\Enums\Badge;
 use Maize\GoogleRecaptchaV3\Rules\RecaptchaRule;
 use Maize\GoogleRecaptchaV3\Support\Config;
-use Illuminate\Support\Uri;
 
 class GoogleRecaptchaV3
 {
