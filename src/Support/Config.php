@@ -17,7 +17,6 @@ class Config
     {
         $enabled = config('google-recaptcha-v3.enabled') ?? null;
 
-        // Handle string 'false' explicitly
         if ($enabled === 'false' || $enabled === '0') {
             $enabled = false;
         } else {
