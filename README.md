@@ -128,6 +128,7 @@ Add the reCAPTCHA script to your Blade templates using the `@recaptcha` directiv
 - `Badge::INLINE` - Displays the badge inline
 - `Badge::BOTTOMLEFT` - Displays the badge at the bottom left
 - `Badge::BOTTOMRIGHT` - Displays the badge at the bottom right (recommended)
+- `Badge::HIDDEN` - Hides the badge completely
 
 ### Backend Validation
 

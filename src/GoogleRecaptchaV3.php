@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use Maize\GoogleRecaptchaV3\Enums\Badge;
 use Maize\GoogleRecaptchaV3\Rules\RecaptchaRule;
 use Maize\GoogleRecaptchaV3\Support\Config;
+use Illuminate\Support\Uri;
 
 class GoogleRecaptchaV3
 {
@@ -24,7 +25,9 @@ class GoogleRecaptchaV3
     private function getJsScriptUrl(Badge $badge): string
     {
         return Config::getBaseJsScriptUrl()
-            ->withQuery(['badge' => $badge])
+            ->when($badge !== Badge::HIDDEN, fn (Uri $url) => (
+                $url->withQuery(['badge' => $badge])
+            ))
             ->value();
     }
 
