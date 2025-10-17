@@ -57,22 +57,32 @@ class GoogleRecaptchaV3
         JS;
     }
 
+    private function getHiddenBadgeStyle(): string
+    {
+        return <<<'CSS'
+            .grecaptcha-badge {
+                visibility: hidden;
+            }
+        CSS;
+    }
+
     private function toHtml(Badge $badge): string
     {
         if (! Config::isEnabled()) {
             return '';
         }
 
-        return implode("\n\n", [
+        $parts = [
             str($this->getJsScriptUrl($badge))->wrap('<script>', '</script>'),
             str($this->getJsTokenScript())->wrap('<script>', '</script>'),
-            // TODO: add style
-        ]);
-    }
+        ];
 
-    // <style>
-    // .grecaptcha-badge {
-    // bottom: 90px !important;
-    // }
-    // </style>
+        return collect($parts)
+            ->when($badge === Badge::HIDDEN, fn ($collection) => (
+                $collection->push(str(
+                    $this->getHiddenBadgeStyle()
+                )->wrap('<style>', '</style>'))
+            ))
+            ->implode("\n\n");
+    }
 }

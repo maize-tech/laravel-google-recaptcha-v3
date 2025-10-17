@@ -7,7 +7,5 @@ enum Badge: string
     case INLINE = 'inline';
     case BOTTOMLEFT = 'bottomleft';
     case BOTTOMRIGHT = 'bottomright';
-
-    // TODO
-    // case HIDDEN = 'hidden';
+    case HIDDEN = 'hidden';
 }
